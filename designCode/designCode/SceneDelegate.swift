@@ -23,6 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         window?.rootViewController = careateTabBar()
         window?.makeKeyAndVisible()
+        configerNavigationBar()
     }
 
     func creatSearchNc() ->UINavigationController {
@@ -55,7 +56,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     
     
-    
+    func configerNavigationBar(){
+        UINavigationBar.appearance().tintColor = .systemGreen
+    }
     
     
     
