@@ -40,7 +40,10 @@ class FollowerListVC: UIViewController {
     func getFollowers () {
         
            NetworkManager.shared.getFollowers(for: username, page: 1 ) {
+            
+            [weak self ]
                result in
+            guard let self = self else {return }
                switch result {
                case .success(let followers) :
                 self.followers = followers
@@ -53,24 +56,13 @@ class FollowerListVC: UIViewController {
     }
     
     func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: CreateThreeColumFlowLayout())
-        view.addSubview(collectionView)
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UIHelper.CreateThreeColumFlowLayout(in : view))
+       view.addSubview(collectionView)
         collectionView.backgroundColor = .systemBackground
         collectionView.register(FollowerCell.self, forCellWithReuseIdentifier: FollowerCell.reuseID)
     }
     
-    func CreateThreeColumFlowLayout() -> UICollectionViewFlowLayout {
-        let width = view.bounds.width
-        let padding :  CGFloat = 12
-        let minimumItemSpacing : CGFloat = 10
-        let avalibleWidth = width - (padding * 2 ) - (minimumItemSpacing * 2)
-        let itemWidth = avalibleWidth / 3
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
-        flowLayout.itemSize = CGSize(width: itemWidth, height: itemWidth + 40)
-        return flowLayout
-        
-    }
+
 
     func configerDataSource() {
         dataSource = UICollectionViewDiffableDataSource<section , Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in
